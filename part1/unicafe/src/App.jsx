@@ -29,23 +29,34 @@ const App = () => {
     const [bad, setBad] = useState(0)
 
     const [totalClicks, setTotalClicks] = useState(0)
+    const [avgScore, setAvgScore] = useState(0)
+    const [percentagePosFeedback, setPercentagePosFeedback] = useState(0)
 
     const handleGoodClicks = () => {
         const newGood = good + 1
         setGood(newGood)
-        setTotalClicks(newGood + bad + neutral)
+        const newTotal = newGood + bad + neutral
+        setTotalClicks(newTotal)
+        setAvgScore(((newGood) - bad)/newTotal )
+        setPercentagePosFeedback(newGood / newTotal)
     }
 
     const handleNeutralClicks = () => {
         const newNeutral = neutral + 1
         setNeutral(newNeutral)
-        setTotalClicks(newNeutral + bad + good)
+        const newTotal = newNeutral + bad + good
+        setTotalClicks(newTotal)
+        setAvgScore(((good) - bad)/newTotal )
+        setPercentagePosFeedback(good / newTotal)
     }
 
     const handleBadClicks = () => {
         const newBad = bad + 1
         setBad(newBad)
-        setTotalClicks(good + newBad + neutral)
+        const newTotal = newBad + good + neutral
+        setTotalClicks(newTotal)
+        setAvgScore(((good) - newBad)/newTotal )
+        setPercentagePosFeedback(good / newTotal)
     }
 
     return (
@@ -62,6 +73,9 @@ const App = () => {
                 <Statistics text={"good"} count={good}/>
                 <Statistics text={"neutral"} count={neutral} />
                 <Statistics text={"bad"} count={bad} />
+                <Statistics text={"all"} count={totalClicks} />
+                <Statistics text={"averageScore"} count={avgScore} />
+                <Statistics text={"positiveFeedback"} count={Number(percentagePosFeedback).toLocaleString('en',{style: 'percent', minimumFractionDigits:2})} />
 
             </div>
         </div>
